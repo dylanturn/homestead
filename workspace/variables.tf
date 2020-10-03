@@ -1,18 +1,3 @@
-variable "argocd_namespace" {
-  type = string
-}
-variable "argocd_server_replicas" {
-  type = number
-}
-variable "argocd_repo_replicas" {
-  type = number
-}
-variable "argocd_enable_dex" {
-  type = number
-}
-variable "argocd_enable_ha_redis" {
-  type = bool
-}
 variable "argocd_oidc_name" {
   type = string
 }

@@ -26,3 +26,16 @@ resource "digitalocean_kubernetes_cluster" "kubernetes_cluster" {
 
   tags = concat(var.tags, local.default_cluster_tags)
 }
+
+resource "digitalocean_project_resources" "project_resource" {
+  project = var.parent_project_id
+  resources = [
+    for node_id in digitalocean_kubernetes_cluster.kubernetes_cluster.node_pool[*].nodes[*].id :
+    "do:droplet:${node_id}"
+  ]
+}
+
+module "kubernetes_cluster_services" {
+  source = "../../kubernetes-services"
+  argocd = var.cluster_services.argocd
+}

@@ -1,48 +1,43 @@
-# 1. First we're going to want to deploy/update our security enforcement layer.
-# TODO: Finish this module.
-#module "open_policy_agent" {
-#    source = "github.com/dylanturn/terraform-kubernetes-opa-gatekeeper"
-#    namespace = var.opa_namespace
-#}
+module "digital_ocean" {
+  source = "../infrastructure/digital-ocean"
 
-# 2. Next we need to deploy/update the clusters service mesh.
-# TODO: Finish this module.
-#module "linkerd" {
-#    source = "github.com/dylanturn/terraform-kubernetes-linkerd"
-#    depends_on = [module.open_policy_agent]
-#    namespace = var.linkerd_namespace
-#}
-
-# 3. Now we deploy/update the clusters ingress controller.
-# TODO: Finish this module.
-#module "traefik" {
-#    source = "github.com/dylanturn/terraform-kubernetes-traefik"
-#    depends_on = [module.open_policy_agent, module.linkerd]
-#    namespace = var.traefik_namespace
-#}
-
-# 4. Lastly, deploy/update the CICD orchestrator.
-# TODO: Pat myself on the back for getting this to work.
-module "argocd" {
-  source = "github.com/dylanturn/terraform-kubernetes-argocd"
-  #  depends_on = [module.open_policy_agent, module.linkerd, module.traefik]
-
-  namespace = var.argocd_namespace
-
-  argocd_server_replicas = var.argocd_server_replicas
-  argocd_repo_replicas   = var.argocd_repo_replicas
-  enable_dex             = var.argocd_enable_dex
-  enable_ha_redis        = var.argocd_enable_ha_redis
-
-  oidc_config = {
-    name                      = var.argocd_oidc_name,
-    issuer                    = var.argocd_oidc_issuer,
-    client_id                 = var.argocd_oidc_client_id,
-    client_secret             = var.argocd_oidc_client_secret,
-    requested_scopes          = var.argocd_oidc_requested_scopes,
-    requested_id_token_claims = var.argocd_oidc_requested_id_token_claims
-  }
+  project_name        = "TurnBros"
+  project_description = "A development environment that puts developers first."
+  project_environment = "Operational / Developer tooling"
+  project_purpose     = "Production"
+  project_region      = "nyc3"
+  project_clusters = [
+    {
+      name          = "cattle-farm",
+      auto_upgrade  = false,
+      surge_upgrade = false,
+      cluster_node_groups = {
+        "brava" = {
+          size       = "s-1vcpu-2gb",
+          node_count = 4,
+          auto_scale = false,
+          min_nodes  = null,
+          max_nodes  = null,
+          labels     = null,
+          tags       = null,
+        }
+      },
+      cluster_services = {
+        argocd = {
+          namespace                      = "kube-argocd",
+          server_replicas                = 1,
+          repo_replicas                  = 1,
+          enable_dex                     = false,
+          enable_ha_redis                = false,
+          oidc_name                      = var.argocd_oidc_name,
+          oidc_issuer                    = var.argocd_oidc_issuer,
+          oidc_client_id                 = var.argocd_oidc_client_id,
+          oidc_client_secret             = var.argocd_oidc_client_secret,
+          oidc_requested_scopes          = var.argocd_oidc_requested_scopes,
+          oidc_requested_id_token_claims = var.argocd_oidc_requested_id_token_claims
+        }
+      },
+      tags = {}
+    }
+  ]
 }
-
-
-
