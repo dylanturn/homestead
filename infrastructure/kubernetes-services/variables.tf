@@ -3,7 +3,7 @@ variable "argocd" {
     namespace : string,
     server_replicas : number,
     repo_replicas : number,
-    enable_dex : number,
+    enable_dex : bool,
     enable_ha_redis : bool,
     oidc_name : string,
     oidc_issuer : string,

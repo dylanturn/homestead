@@ -20,7 +20,7 @@ resource "digitalocean_kubernetes_cluster" "kubernetes_cluster" {
       min_nodes  = node_pool.value.min_nodes
       max_nodes  = node_pool.value.max_nodes
       labels     = merge(node_pool.value.labels, local.default_node_labels)
-      tags       = merge(node_pool.value.tags, local.default_cluster_tags)
+      tags       = concat(node_pool.value.tags, local.default_cluster_tags)
     }
   }
 

@@ -12,15 +12,14 @@ resource "digitalocean_vpc" "vpc" {
 
 module "kubernetes" {
   source   = "./kubernetes"
-  count = length(var.project_clusters)
 
   parent_project_id   = digitalocean_project.project.id
   region              = var.project_region
   vpc_uuid            = digitalocean_vpc.vpc.id
-  name                = var.project_clusters[count.index].name
-  auto_upgrade        = var.project_clusters[count.index].auto_upgrade
-  surge_upgrade       = var.project_clusters[count.index].surge_upgrade
-  cluster_node_groups = var.project_clusters[count.index].cluster_node_groups
-  cluster_services    = var.project_clusters[count.index].cluster_services
-  tags                = merge(var.project_clusters[count.index].tags, local.tags)
+  name                = var.project_cluster_name
+  auto_upgrade        = var.project_cluster_auto_upgrade
+  surge_upgrade       = var.project_cluster_surge_upgrade
+  cluster_node_groups = var.project_cluster_node_groups
+  cluster_services    = var.project_cluster_services
+  tags = []
 }
