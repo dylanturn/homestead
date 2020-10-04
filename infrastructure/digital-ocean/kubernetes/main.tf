@@ -20,7 +20,7 @@ resource "digitalocean_kubernetes_cluster" "kubernetes_cluster" {
       min_nodes  = node_pool.value.min_nodes
       max_nodes  = node_pool.value.max_nodes
       labels     = merge(node_pool.value.labels, local.default_node_labels)
-      tags       = merge(node_pool.value.tags, local.default_cluster_tags)
+      tags       = concat(node_pool.value.tags, local.default_cluster_tags)
     }
   }
 
@@ -28,14 +28,16 @@ resource "digitalocean_kubernetes_cluster" "kubernetes_cluster" {
 }
 
 resource "digitalocean_project_resources" "project_resource" {
-  project = var.parent_project_id
-  resources = [
-    for node_id in digitalocean_kubernetes_cluster.kubernetes_cluster.node_pool[*].nodes[*].id :
-    "do:droplet:${node_id}"
-  ]
+  project   = var.parent_project_id
+  resources = []
 }
 
 module "kubernetes_cluster_services" {
-  source = "../../kubernetes-services"
-  argocd = var.cluster_services.argocd
+  source                 = "github.com/turnbros/terraform-kubernetes-solutions-suite"
+  cluster_endpoint       = digitalocean_kubernetes_cluster.kubernetes_cluster.kube_config.0.host
+  cluster_token          = digitalocean_kubernetes_cluster.kubernetes_cluster.kube_config.0.token
+  cluster_ca_certificate = base64decode(digitalocean_kubernetes_cluster.kubernetes_cluster.kube_config.0.cluster_ca_certificate)
+  traefik                = var.cluster_services.traefik
+  argocd                 = var.cluster_services.argocd
 }
+
