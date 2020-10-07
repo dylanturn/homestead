@@ -1,5 +1,5 @@
 module "digital_ocean" {
-  source = "../infrastructure/digital-ocean"
+  source = "..\/..\/infrastructure\/digital-ocean"
 
   project_name        = "turnbros"
   project_domain      = "turnbros.app"
