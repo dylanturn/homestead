@@ -2,6 +2,11 @@ variable "project_name" {
   type        = string
   description = "The name of the Project"
 }
+variable "project_domain" {
+  type        = string
+  description = "A domain name to associate with this project"
+  default     = null
+}
 variable "project_description" {
   type        = string
   description = "the description of the project"
@@ -28,7 +33,7 @@ variable "project_cluster" {
     name : string,
     auto_upgrade : bool,
     surge_upgrade : bool,
-    cluster_node_groups : map(object({
+    cluster_node_groups : list(object({
       size : string,
       node_count : number,
       auto_scale : bool,
@@ -38,6 +43,17 @@ variable "project_cluster" {
       labels : map(string),
     }))
     cluster_services : object({
+      cert_manager : object({
+        certificate_issuers = object({
+          letsencrypt = object({
+            name: string,
+            server: string,
+            email: string,
+            secret_base64_key: string,
+            default_issuer: bool
+          })
+        })
+      })
       traefik : object({
         namespace : string,
         log_level : string,
@@ -48,6 +64,7 @@ variable "project_cluster" {
       })
       # With any luck we'll be able to default `argocd` to null here. Until then we'll just have to do that in the calling module.
       argocd : object({
+        url : string,
         namespace : string,
         server_replicas : number,
         repo_replicas : number,

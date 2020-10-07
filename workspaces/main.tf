@@ -2,16 +2,17 @@ module "digital_ocean" {
   source = "../infrastructure/digital-ocean"
 
   project_name        = "turnbros"
+  project_domain      = "turnbros.app"
   project_description = "A development environment that puts developers first."
   project_environment = "Production"
   project_purpose     = "Operational / Developer tooling"
   project_region      = "nyc3"
   project_cluster = {
-    name          = "cattle-farm",
+    name          = "brava",
     auto_upgrade  = false,
     surge_upgrade = false,
-    cluster_node_groups = {
-      "brava" = {
+    cluster_node_groups = [
+      {
         size       = "s-1vcpu-2gb",
         node_count = 4,
         auto_scale = false,
@@ -20,8 +21,19 @@ module "digital_ocean" {
         labels     = {},
         tags       = [],
       }
-    },
+    ],
     cluster_services = {
+      cert_manager = {
+        certificate_issuers = {
+          letsencrypt = {
+            name = "letsencrypt-prod"
+            server = "https://acme-v02.api.letsencrypt.org/directory"
+            email = "dylanturn@gmail.com"
+            default_issuer = true
+          secret_base64_key = var.letsencrypt_secret_base64_key
+          }
+        }
+      }
       traefik = {
         namespace                            = "kube-traefik",
         log_level                            = "INFO",
@@ -31,6 +43,8 @@ module "digital_ocean" {
         pod_termination_grace_period_seconds = 1
       }
       argocd = {
+        # TODO: Not this. Gotta find another way.
+        url                            = "argocd.brava.turnbros.app"
         namespace                      = "kube-argocd",
         server_replicas                = 1,
         repo_replicas                  = 1,

@@ -16,3 +16,6 @@ variable "argocd_oidc_requested_scopes" {
 variable "argocd_oidc_requested_id_token_claims" {
   type = map(any)
 }
+variable "letsencrypt_secret_base64_key" {
+  type = string
+}
