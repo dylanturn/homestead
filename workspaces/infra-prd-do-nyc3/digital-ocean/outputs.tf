@@ -9,10 +9,10 @@ output "cluster_token" {
   sensitive = true
 }
 output "cluster_cert_issuer" {
-  value = var.cert_manager == null ? "" : module.cert_manager[0].cert_issuer
+  value = module.kubernetes_cluster_services.cluster_cert_issuer
 }
 output "cluster_ingress_class" {
-  value = var.traefik == null ? "" : module.traefik[0].ingress_class
+  value = module.kubernetes_cluster_services.cluster_ingress_class
 }
 output "cluster_argocd_namespace" {
   value = module.kubernetes_cluster_services.argocd_namespace
