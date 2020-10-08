@@ -23,3 +23,6 @@ variable "kergiva_web_image_tag" {
 variable "image_pull_secret" {
   type = string
 }
+variable "terraform_cloud_token" {
+  type = string
+}
