@@ -40,6 +40,7 @@ module "kergiva_web" {
   project_name      = module.project.name
   namespace         = kubernetes_namespace.rational_healthcare.metadata.0.name
   domain_name       = var.kergiva_web_domain_name
+  chart_version     = "0.1.3"
   image_repo        = var.kergiva_web_image_repo
   image_name        = var.kergiva_web_image_name
   image_tag         = var.kergiva_web_image_tag
@@ -57,6 +58,7 @@ module "kergiva_api" {
   project_name      = module.project.name
   namespace         = kubernetes_namespace.rational_healthcare.metadata.0.name
   domain_name       = var.kergiva_api_domain_name
+  chart_version     = "0.1.3"
   image_repo        = var.kergiva_api_image_repo
   image_name        = var.kergiva_api_image_name
   image_tag         = var.kergiva_api_image_tag
@@ -74,6 +76,7 @@ module "kergiva_app" {
   project_name      = module.project.name
   namespace         = kubernetes_namespace.rational_healthcare.metadata.0.name
   domain_name       = var.kergiva_app_domain_name
+  chart_version     = "0.1.3"
   image_repo        = var.kergiva_app_image_repo
   image_name        = var.kergiva_app_image_name
   image_tag         = var.kergiva_app_image_tag
