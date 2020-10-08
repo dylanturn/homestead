@@ -16,7 +16,7 @@ resource "kubernetes_secret" "secret" {
 }
 
 module "project" {
-  source = "github.com/turnbros/terraform-argocd-project"
+  source = "git@github.com:turnbros/terraform-argocd-project.git"
 
   argocd_namespace = data.terraform_remote_state.infra.outputs.cluster_argocd_namespace
   name             = local.project_name
@@ -30,7 +30,7 @@ module "project" {
 }
 
 module "kergiva_web" {
-  source = "github.com/rationalhealthcare/terraform-argo-kergiva-web"
+  source = "git@github.com:rationalhealthcare/terraform-argo-kergiva-web.git"
 
   cluster_endpoint         = "https://kubernetes.default.svc"
   cluster_cert_issuer      = data.terraform_remote_state.infra.outputs.cluster_cert_issuer
