@@ -1,6 +1,6 @@
 resource "kubernetes_namespace" "rational_healthcare" {
   metadata {
-    name = var.namespace
+    name = "${var.namespace}-${var.environment}"
   }
 }
 
