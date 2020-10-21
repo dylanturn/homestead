@@ -1,5 +1,6 @@
 .idea
-
+prometheusbeat
+prometheusbeat/*
 # Local .terraform directories
 **/.terraform/*
 

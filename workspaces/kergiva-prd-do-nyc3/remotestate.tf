@@ -4,7 +4,7 @@ data "terraform_remote_state" "infra" {
   config = {
 
     organization = "turnbros"
-    token = var.terraform_cloud_token
+    token        = var.terraform_cloud_token
     workspaces = {
       name = "homestead-infra-prd-do-nyc3"
     }

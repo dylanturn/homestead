@@ -1,3 +1,6 @@
+output "private_vpc_id" {
+  value = digitalocean_vpc.project_vpc.id
+}
 output "cluster_endpoint" {
   value = module.kubernetes_cluster.cluster_endpoint
 }

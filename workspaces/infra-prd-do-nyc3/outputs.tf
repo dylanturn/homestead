@@ -1,3 +1,9 @@
+output "region" {
+  value = var.region
+}
+output "private_vpc_id" {
+  value = module.digital_ocean.private_vpc_id
+}
 output "cluster_endpoint" {
   value = module.digital_ocean.cluster_endpoint
 }

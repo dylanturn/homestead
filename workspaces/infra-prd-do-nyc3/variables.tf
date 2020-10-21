@@ -1,3 +1,7 @@
+variable "region" {
+  type = string
+  description = "The region in which the infrastructure will be provisioned."
+}
 variable "argocd_oidc_name" {
   type = string
 }
