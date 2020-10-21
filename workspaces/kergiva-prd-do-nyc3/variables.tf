@@ -61,7 +61,7 @@ variable "kergiva_app_image_repo" {
 }
 variable "kergiva_app_image_name" {
   type    = string
-  default = "rationalhealthcare/vuetest2/kergiva-app"
+  default = "rationalhealthcare/vuetify2/appdash"
 }
 variable "kergiva_app_image_tag" {
   type    = string
