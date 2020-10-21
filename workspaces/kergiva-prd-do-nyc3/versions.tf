@@ -8,5 +8,8 @@ terraform {
       source  = "banzaicloud/k8s"
       version = "0.8.0"
     }
+    digitalocean = {
+      source = "digitalocean/digitalocean"
+    }
   }
 }
