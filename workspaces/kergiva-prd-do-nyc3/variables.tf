@@ -65,5 +65,5 @@ variable "kergiva_app_image_name" {
 }
 variable "kergiva_app_image_tag" {
   type    = string
-  default = "latest"
+  default = "runtime_var_branch"
 }
