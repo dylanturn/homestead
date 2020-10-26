@@ -34,7 +34,7 @@ variable "kergiva_web_image_tag" {
 
 variable "kergiva_api_domain_name" {
   type    = string
-  default = "api.kergiva.brava.turnbros.app"
+  default = "app.kergiva.brava.turnbros.app"
 }
 variable "kergiva_api_image_repo" {
   type    = string
