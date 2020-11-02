@@ -24,6 +24,30 @@ variable "project_region" {
   description = "The region this projects resources will be created in."
 }
 
+###########################
+## Shared Mysql Database ##
+###########################
+variable "db_cluster_engine" {
+  type = string
+  description = "The engine to use when building this database cluster"
+  default = "mysql"
+}
+variable "db_cluster_engine_version" {
+  type = string
+  description = "The engine version to use when building this database cluster"
+  default = "8"
+}
+variable "db_cluster_instance_type" {
+  type = string
+  description = "The type of instance to use for database cluster members"
+  default = "db-s-1vcpu-1gb"
+}
+variable "db_cluster_instance_count" {
+  type = number
+  description = "The number of database cluster nodes to provision"
+  default = 1
+}
+
 # I'm doing this in the hopes that someday soon we'll be able to assign defaults to attributes.
 # This was meant to be a list of clusters. The idea was that you could define one or more clusters and Terraform would just handle it for you
 # Unfortunately since we don't know the Kubernetes provider information until after we've deployed the cluster.

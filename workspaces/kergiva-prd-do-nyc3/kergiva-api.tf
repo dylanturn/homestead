@@ -14,9 +14,8 @@ module "kergiva_api" {
   image_name        = var.kergiva_api_image_name
   image_tag         = var.kergiva_api_image_tag
   image_pull_secret = kubernetes_secret.secret.metadata.0.name
-  database_host     = digitalocean_database_cluster.kergiva_db_cluster.private_host
-  database_port     = digitalocean_database_cluster.kergiva_db_cluster.port
-  database_username = digitalocean_database_cluster.kergiva_db_cluster.user
-  database_password = digitalocean_database_cluster.kergiva_db_cluster.password
-  database_name     = digitalocean_database_db.kergiva_db_cluster_database.name
+  database_host     = data.terraform_remote_state.kergiva_db.outputs.host
+  database_port     = data.terraform_remote_state.kergiva_db.outputs.port
+  database_username = data.terraform_remote_state.kergiva_db.outputs.username
+  database_password = data.terraform_remote_state.kergiva_db.outputs.password
 }

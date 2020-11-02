@@ -1,6 +1,25 @@
 output "private_vpc_id" {
   value = digitalocean_vpc.project_vpc.id
 }
+output "private_vpc_region" {
+  value = digitalocean_vpc.project_vpc.region
+}
+
+
+output "database_host" {
+  value = digitalocean_database_cluster.database_cluster.private_host
+}
+output "database_port" {
+  value = digitalocean_database_cluster.database_cluster.port
+}
+output "database_username" {
+  value = digitalocean_database_cluster.database_cluster.user
+}
+output "database_password" {
+  value = digitalocean_database_cluster.database_cluster.password
+}
+
+
 output "cluster_endpoint" {
   value = module.kubernetes_cluster.cluster_endpoint
 }
