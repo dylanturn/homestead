@@ -5,7 +5,9 @@ output "private_vpc_region" {
   value = digitalocean_vpc.project_vpc.region
 }
 
-
+output "database_remote_host" {
+  value = digitalocean_database_cluster.database_cluster.host
+}
 output "database_host" {
   value = digitalocean_database_cluster.database_cluster.private_host
 }
@@ -18,7 +20,6 @@ output "database_username" {
 output "database_password" {
   value = digitalocean_database_cluster.database_cluster.password
 }
-
 
 output "cluster_endpoint" {
   value = module.kubernetes_cluster.cluster_endpoint
@@ -37,5 +38,5 @@ output "cluster_ingress_class" {
   value = module.kubernetes_cluster_services.cluster_ingress_class
 }
 output "cluster_argocd_namespace" {
-  value = module.kubernetes_cluster_services.argocd_namespace
+  value = module.kubernetes_cluster_services["argocd_namespace"]
 }

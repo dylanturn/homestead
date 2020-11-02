@@ -4,6 +4,23 @@ output "region" {
 output "private_vpc_id" {
   value = module.digital_ocean.private_vpc_id
 }
+
+output "database_remote_host" {
+  value = module.digital_ocean.database_remote_host
+}
+output "database_host" {
+  value = module.digital_ocean.database_host
+}
+output "database_port" {
+  value = module.digital_ocean.database_port
+}
+output "database_username" {
+  value = module.digital_ocean.database_username
+}
+output "database_password" {
+  value = module.digital_ocean.database_password
+}
+
 output "cluster_endpoint" {
   value = module.digital_ocean.cluster_endpoint
 }
