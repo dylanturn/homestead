@@ -9,7 +9,7 @@ module "kubernetes_cluster" {
   auto_upgrade        = var.project_cluster.auto_upgrade
   surge_upgrade       = var.project_cluster.surge_upgrade
   cluster_node_groups = var.project_cluster.cluster_node_groups
-  version             = "1.18.8-do.1"
+  k8s_version         = "1.18.8-do.1"
   tags                = concat(var.project_cluster.tags, local.tags)
 }
 
