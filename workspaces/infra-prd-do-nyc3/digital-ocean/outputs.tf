@@ -40,3 +40,6 @@ output "cluster_ingress_class" {
 output "cluster_argocd_namespace" {
   value = module.kubernetes_cluster_services["argocd_namespace"]
 }
+output "cluster_load_balancer" {
+  value = module.kubernetes_cluster_services.ingress_loadbalancer_ip_list[count.index]
+}

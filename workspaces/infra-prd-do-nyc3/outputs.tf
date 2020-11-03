@@ -40,3 +40,6 @@ output "cluster_ingress_class" {
 output "cluster_argocd_namespace" {
   value = module.digital_ocean.cluster_argocd_namespace
 }
+output "cluster_load_balancer" {
+  value = module.digital_ocean.cluster_load_balancer
+}
