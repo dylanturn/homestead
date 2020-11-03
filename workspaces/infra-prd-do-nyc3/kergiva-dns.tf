@@ -4,7 +4,7 @@
 resource "digitalocean_domain" "kergiva_app" {
   name = "kergiva.app"
 }
-resource "digitalocean_record" "kubernetes_cluster_ingress_record" {
+resource "digitalocean_record" "kergiva_app_cluster_record" {
   domain = digitalocean_domain.kergiva_app.name
   name   = "*"
   type   = "A"
@@ -17,7 +17,7 @@ resource "digitalocean_record" "kubernetes_cluster_ingress_record" {
 resource "digitalocean_domain" "kergiva_org" {
   name = "kergiva.org"
 }
-resource "digitalocean_record" "kubernetes_cluster_ingress_record" {
+resource "digitalocean_record" "kergiva_org_cluster_record" {
   domain = digitalocean_domain.kergiva_org.name
   name   = "*"
   type   = "A"
