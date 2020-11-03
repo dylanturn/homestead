@@ -41,5 +41,6 @@ output "cluster_argocd_namespace" {
   value = module.kubernetes_cluster_services["argocd_namespace"]
 }
 output "cluster_load_balancer" {
+  count  = var.project_domain == null ? 0 : 1
   value = module.kubernetes_cluster_services.ingress_loadbalancer_ip_list[count.index]
 }
