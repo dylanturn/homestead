@@ -1,3 +1,6 @@
+variable "digital_ocean_token" {
+  type = string
+}
 variable "region" {
   type = string
   description = "The region in which the infrastructure will be provisioned."
