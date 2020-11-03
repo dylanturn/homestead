@@ -1,5 +1,5 @@
 module "kergiva_api" {
-  source = "github.com/rationalhealthcare/terraform-argo-kergiva-api?ref=main"
+  source = "github.com/rationalhealthcare/terraform-argo-kergiva-api?ref=v1.0.0"
 
   cluster_endpoint         = "https://kubernetes.default.svc"
   cluster_cert_issuer      = data.terraform_remote_state.infra.outputs.cluster_cert_issuer
