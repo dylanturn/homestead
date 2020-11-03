@@ -3,6 +3,7 @@
 #################
 resource "digitalocean_domain" "kergiva_app" {
   name = "kergiva.app"
+  ip_address = module.digital_ocean.cluster_load_balancer
 }
 resource "digitalocean_record" "kergiva_app_primary_record" {
   domain = digitalocean_domain.kergiva_app.name
@@ -22,6 +23,7 @@ resource "digitalocean_record" "kergiva_app_cluster_record" {
 #################
 resource "digitalocean_domain" "kergiva_org" {
   name = "kergiva.org"
+  ip_address = module.digital_ocean.cluster_load_balancer
 }
 resource "digitalocean_record" "kergiva_org_primary_record" {
   domain = digitalocean_domain.kergiva_org.name
