@@ -8,14 +8,3 @@ data "terraform_remote_state" "infra" {
     }
   }
 }
-
-data "terraform_remote_state" "kergiva_db" {
-  backend = "remote"
-  config = {
-    organization = "turnbros"
-    token        = var.terraform_cloud_token
-    workspaces = {
-      name = "homestead-db-prd-do-nyc3"
-    }
-  }
-}
