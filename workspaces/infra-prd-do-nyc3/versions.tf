@@ -6,4 +6,11 @@ terraform {
       source = "digitalocean/digitalocean"
     }
   }
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "turnbros"
+    workspaces {
+      name = "homestead-infra-prd-do-nyc3"
+    }
+  }
 }

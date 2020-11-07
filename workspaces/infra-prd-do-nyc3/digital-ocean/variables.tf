@@ -28,24 +28,24 @@ variable "project_region" {
 ## Shared Mysql Database ##
 ###########################
 variable "db_cluster_engine" {
-  type = string
+  type        = string
   description = "The engine to use when building this database cluster"
-  default = "mysql"
+  default     = "mysql"
 }
 variable "db_cluster_engine_version" {
-  type = string
+  type        = string
   description = "The engine version to use when building this database cluster"
-  default = "8"
+  default     = "8"
 }
 variable "db_cluster_instance_type" {
-  type = string
+  type        = string
   description = "The type of instance to use for database cluster members"
-  default = "db-s-1vcpu-1gb"
+  default     = "db-s-1vcpu-1gb"
 }
 variable "db_cluster_instance_count" {
-  type = number
+  type        = number
   description = "The number of database cluster nodes to provision"
-  default = 1
+  default     = 1
 }
 
 # I'm doing this in the hopes that someday soon we'll be able to assign defaults to attributes.
@@ -70,11 +70,11 @@ variable "project_cluster" {
       cert_manager : object({
         certificate_issuers = object({
           letsencrypt = object({
-            name: string,
-            server: string,
-            email: string,
-            secret_base64_key: string,
-            default_issuer: bool
+            name : string,
+            server : string,
+            email : string,
+            secret_base64_key : string,
+            default_issuer : bool
           })
         })
       })

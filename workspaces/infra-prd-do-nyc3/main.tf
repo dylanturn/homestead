@@ -26,11 +26,11 @@ module "digital_ocean" {
       cert_manager = {
         certificate_issuers = {
           letsencrypt = {
-            name = "letsencrypt-prod"
-            server = "https://acme-v02.api.letsencrypt.org/directory"
-            email = "dylanturn@gmail.com"
-            default_issuer = true
-          secret_base64_key = var.letsencrypt_secret_base64_key
+            name              = "letsencrypt-prod"
+            server            = "https://acme-v02.api.letsencrypt.org/directory"
+            email             = "dylanturn@gmail.com"
+            default_issuer    = true
+            secret_base64_key = var.letsencrypt_secret_base64_key
           }
         }
       }

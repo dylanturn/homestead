@@ -4,7 +4,7 @@ module "kubernetes_cluster" {
   parent_project_id   = digitalocean_project.project.id
   region              = var.project_region
   vpc_uuid            = digitalocean_vpc.project_vpc.id
-  domain              = var.project_domain # == null ? null : digitalocean_domain.project_domain.0.name
+  domain              = digitalocean_domain.project_domain.name
   name                = var.project_cluster.name
   auto_upgrade        = var.project_cluster.auto_upgrade
   surge_upgrade       = var.project_cluster.surge_upgrade
@@ -14,7 +14,7 @@ module "kubernetes_cluster" {
 }
 
 module "kubernetes_cluster_services" {
-  source                 = "github.com/turnbros/terraform-kubernetes-solutions-suite"
+  source                 = "github.com/project-octal/terraform-kubernetes-octal"
   cluster_endpoint       = module.kubernetes_cluster.cluster_endpoint
   cluster_token          = module.kubernetes_cluster.cluster_token
   cluster_ca_certificate = module.kubernetes_cluster.cluster_ca_certificate
@@ -24,8 +24,7 @@ module "kubernetes_cluster_services" {
 }
 
 resource "digitalocean_record" "kubernetes_cluster_ingress_record" {
-  count  = var.project_domain == null ? 0 : 1
-  domain = var.project_domain
+  domain = digitalocean_domain.project_domain.name
   name   = "*.${var.project_cluster.name}"
   type   = "A"
   value  = module.kubernetes_cluster_services.ingress_loadbalancer_ip_list[count.index]

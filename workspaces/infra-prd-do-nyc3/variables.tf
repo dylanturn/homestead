@@ -2,7 +2,7 @@ variable "digital_ocean_token" {
   type = string
 }
 variable "region" {
-  type = string
+  type        = string
   description = "The region in which the infrastructure will be provisioned."
 }
 variable "argocd_oidc_name" {
