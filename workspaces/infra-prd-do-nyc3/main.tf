@@ -13,8 +13,8 @@ module "digital_ocean" {
     surge_upgrade = false,
     cluster_node_groups = [
       {
-        size       = "s-1vcpu-2gb",
-        node_count = 4,
+        size       = "s-2vcpu-4gb",
+        node_count = 3,
         auto_scale = false,
         min_nodes  = null,
         max_nodes  = null,
