@@ -1,7 +1,7 @@
 module "kubernetes_cluster" {
   source = "github.com/turnbros/terraform-digitalocean-kubernetes"
 
-  parent_project_id   = digitalocean_project.project.id
+  parent_project_id   = data.digitalocean_project.project.id
   region              = var.project_region
   vpc_uuid            = digitalocean_vpc.project_vpc.id
   domain              = digitalocean_domain.project_domain.name
@@ -27,5 +27,5 @@ resource "digitalocean_record" "kubernetes_cluster_ingress_record" {
   domain = digitalocean_domain.project_domain.name
   name   = "*.${var.project_cluster.name}"
   type   = "A"
-  value  = module.kubernetes_cluster_services.ingress_loadbalancer_ip_list[count.index]
+  value  = module.kubernetes_cluster_services.ingress_loadbalancer_ip_list
 }
