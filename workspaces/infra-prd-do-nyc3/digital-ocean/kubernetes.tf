@@ -27,5 +27,5 @@ resource "digitalocean_record" "kubernetes_cluster_ingress_record" {
   domain = digitalocean_domain.project_domain.name
   name   = "*.${var.project_cluster.name}"
   type   = "A"
-  value  = module.kubernetes_cluster_services.ingress_loadbalancer_ip_list
+  value  = module.kubernetes_cluster_services.ingress_loadbalancer_ip_list[0]
 }
