@@ -11,16 +11,16 @@ module "digital_ocean" {
     name          = "brava",
     auto_upgrade  = false,
     surge_upgrade = false,
+    default_cluster_node_group = {
+      size       = "s-1vcpu-2gb",
+      node_count = 3,
+      auto_scale = false,
+      min_nodes  = null,
+      max_nodes  = null,
+      labels     = {},
+      tags       = [],
+    },
     cluster_node_groups = [
-      {
-        size       = "s-1vcpu-2gb",
-        node_count = 3,
-        auto_scale = false,
-        min_nodes  = null,
-        max_nodes  = null,
-        labels     = {},
-        tags       = [],
-      },
       {
         size       = "s-4vcpu-8gb",
         node_count = 1,

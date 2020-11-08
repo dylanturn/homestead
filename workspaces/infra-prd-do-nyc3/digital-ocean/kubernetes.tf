@@ -1,16 +1,17 @@
 module "kubernetes_cluster" {
   source = "github.com/turnbros/terraform-digitalocean-kubernetes"
 
-  parent_project_id   = data.digitalocean_project.project.id
-  region              = var.project_region
-  vpc_uuid            = digitalocean_vpc.project_vpc.id
-  domain              = digitalocean_domain.project_domain.name
-  name                = var.project_cluster.name
-  auto_upgrade        = var.project_cluster.auto_upgrade
-  surge_upgrade       = var.project_cluster.surge_upgrade
-  cluster_node_groups = var.project_cluster.cluster_node_groups
-  k8s_version         = "1.19.3-do.2"
-  tags                = concat(var.project_cluster.tags, local.tags)
+  parent_project_id          = data.digitalocean_project.project.id
+  region                     = var.project_region
+  vpc_uuid                   = digitalocean_vpc.project_vpc.id
+  domain                     = digitalocean_domain.project_domain.name
+  name                       = var.project_cluster.name
+  auto_upgrade               = var.project_cluster.auto_upgrade
+  surge_upgrade              = var.project_cluster.surge_upgrade
+  k8s_version                = "1.19.3-do.2"
+  tags                       = concat(var.project_cluster.tags, local.tags)
+  default_cluster_node_group = var.project_cluster.default_cluster_node_group
+  extra_cluster_node_groups  = var.project_cluster.extra_cluster_node_groups
 }
 
 module "kubernetes_cluster_services" {

@@ -57,7 +57,7 @@ variable "project_cluster" {
     name : string,
     auto_upgrade : bool,
     surge_upgrade : bool,
-    cluster_node_groups : list(object({
+    default_cluster_node_group : object({
       size : string,
       node_count : number,
       auto_scale : bool,
@@ -65,7 +65,16 @@ variable "project_cluster" {
       max_nodes : number,
       tags : list(string),
       labels : map(string),
-    }))
+    }),
+    extra_cluster_node_groups : list(object({
+      size : string,
+      node_count : number,
+      auto_scale : bool,
+      min_nodes : number,
+      max_nodes : number,
+      tags : list(string),
+      labels : map(string),
+    })),
     cluster_services : object({
       cert_manager : object({
         certificate_issuers = object({
