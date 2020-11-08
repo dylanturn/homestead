@@ -13,12 +13,23 @@ module "digital_ocean" {
     surge_upgrade = false,
     cluster_node_groups = [
       {
-        size       = "s-2vcpu-4gb",
+        size       = "s-1vcpu-2gb",
         node_count = 3,
         auto_scale = false,
         min_nodes  = null,
         max_nodes  = null,
         labels     = {},
+        tags       = [],
+      },
+      {
+        size       = "s-4vcpu-8gb",
+        node_count = 1,
+        auto_scale = false,
+        min_nodes  = null,
+        max_nodes  = null,
+        labels     = {
+          application = "rust"
+        },
         tags       = [],
       }
     ],
