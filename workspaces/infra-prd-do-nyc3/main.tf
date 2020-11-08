@@ -20,17 +20,17 @@ module "digital_ocean" {
       labels     = {},
       tags       = [],
     },
-    cluster_node_groups = [
+    extra_cluster_node_groups = [
       {
         size       = "s-4vcpu-8gb",
         node_count = 1,
         auto_scale = false,
         min_nodes  = null,
         max_nodes  = null,
-        labels     = {
+        labels = {
           application = "rust"
         },
-        tags       = [],
+        tags = [],
       }
     ],
     cluster_services = {
