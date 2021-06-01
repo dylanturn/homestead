@@ -1,0 +1,86 @@
+all:
+  vars:
+    k3s_version: v1.20.4+k3s1
+    ansible_user: dylanturn
+    systemd_dir: /etc/systemd/system
+    master_ip: "{{ hostvars[groups['master'][0]]['ansible_host'] | default(groups['master'][0]) }}"
+    extra_server_args:
+      - --advertise-address {{ ansible_host }}
+      - --node-ip {{ ansible_host }}
+      - --node-external-ip {{ ansible_host }}
+      - --disable traefik
+      - --node-label data-center={{ datacenter_name }}
+      - --kube-apiserver-arg oidc-issuer-url={{ oidc_issuer_url }}
+      - --kube-apiserver-arg oidc-client-id={{ oidc_client_id }}
+      - --kube-apiserver-arg oidc-username-claim={{ oidc_username_claim }}
+      - --kube-apiserver-arg oidc-groups-prefix={{ oidc_groups_prefix }}
+      - --kube-apiserver-arg oidc-groups-claim={{ oidc_groups_claim }}
+    extra_agent_args: 
+      - --node-ip {{ ansible_host }}
+      - --node-external-ip {{ ansible_host }}
+      - --node-label data-center={{ datacenter_name }}
+    datacenter_name: "golfview-us"
+
+  children:
+
+    k3s_bridgehead:
+      hosts:
+        happy-harry.turnbull.corp:
+          first_name: harry
+          ansible_user: root
+          external_ip: 154.16.127.112
+          ansible_host: 192.168.2.17
+          primary_interface_name: ens3
+          primary_interface_mac: 06:ca:80:00:01:69
+          netplan_config_path: /etc/netplan/60-gre-config.yaml
+
+    k3s_cluster:
+      vars:
+        host_network_cidr: 24
+        netplan_config_path: /etc/netplan/00-installer-config.yaml
+        gre_tunnel_prefix: 31
+        gre_tunnel_mtu: 1436
+        search_domains:
+          - turnbull.corp
+          - turnbull.home
+        nameservers:
+          - 127.0.0.53
+          - 192.168.1.1
+        internal_networks:
+        - network_cidr: 192.168.0.0/24
+          egress_gateway: 192.168.0.1
+        - network_cidr: 192.168.1.0/24
+          egress_gateway: 192.168.0.1
+        - network_cidr: 192.168.2.0/24
+          egress_gateway: 192.168.0.1
+
+      children:
+        master:
+          hosts:
+            danger-doug.turnbull.corp:
+              first_name: doug
+              ansible_host: 192.168.0.100
+              primary_interface_name: eno3
+              gre_tunnel_ip: 172.16.0.11
+              gre_tunnel_net:  172.16.0.10/31
+
+        node:
+          hosts:
+            dynamic-darcy.turnbull.corp:
+              first_name: darcy
+              ansible_host: 192.168.0.101
+              primary_interface_name: eno3
+              gre_tunnel_ip: 172.16.0.21
+              gre_tunnel_net:  172.16.0.20/31
+            digital-diego.turnbull.corp:
+              first_name: diego
+              ansible_host: 192.168.0.102
+              primary_interface_name: eno1
+              gre_tunnel_ip: 172.16.0.31
+              gre_tunnel_net:  172.16.0.30/31
+            dear-dora.turnbull.corp:
+              first_name: dora
+              ansible_host: 192.168.0.103
+              primary_interface_name: eno1
+              gre_tunnel_ip: 172.16.0.41
+              gre_tunnel_net:  172.16.0.40/31

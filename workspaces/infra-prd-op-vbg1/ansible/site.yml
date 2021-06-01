@@ -1,0 +1,30 @@
+---
+
+- hosts: all
+  tags: [ "never", "network" ]
+  gather_facts: yes
+  become: yes
+  any_errors_fatal: true
+  roles:
+    - role: netplan
+
+- hosts: k3s_cluster
+  tags: [ "never", "prereq" ]
+  gather_facts: yes
+  become: yes
+  roles:
+    - role: prereq
+    - role: download
+
+- hosts: master
+  tags: [ "never", "master" ]
+  become: yes
+  roles:
+    - role: k3s/master
+
+- hosts: node
+  tags: [ "never", "worker" ]
+  become: yes
+  serial: 1
+  roles:
+    - role: k3s/node
