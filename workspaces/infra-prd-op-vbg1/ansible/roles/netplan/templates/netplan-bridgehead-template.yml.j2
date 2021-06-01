@@ -1,0 +1,15 @@
+##################
+### Bridgehead ###
+##################
+network:
+  version: 2
+  tunnels:
+{% for node in groups['k3s_cluster'] %}
+    {{ hostvars[node].first_name }}-gre:
+      mode: gre
+      local: {{ ansible_host }}
+      remote: {{ hostvars[node].ansible_host }}
+      mtu: {{ hostvars[node].gre_tunnel_mtu }}
+      addresses:
+      - {{ hostvars[node].gre_tunnel_net }}
+{% endfor %}

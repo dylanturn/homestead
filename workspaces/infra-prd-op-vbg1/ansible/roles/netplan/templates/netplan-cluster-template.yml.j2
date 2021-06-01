@@ -1,0 +1,36 @@
+#####################
+### Cluster Node  ###
+#####################
+network:
+  version: 2
+  ethernets:
+    {{ primary_interface_name }}:
+      dhcp4: no
+      addresses:
+      - {{ ansible_host }}/{{ host_network_cidr }}
+      nameservers:
+        search: {{ search_domains|safe }}
+        addresses: {{ nameservers|safe }}
+      routes:
+{% for network in internal_networks %}
+      - to: {{ network.network_cidr }}
+        via: {{ network.egress_gateway }}
+        on-link: true
+        metric: 0
+{% endfor %}
+  tunnels:
+{% set bridgehead_count = 50 %}
+{% for bridgehead in groups['k3s_bridgehead'] %}
+{% set bridgehead_count = bridgehead_count + 1 %}
+    {{ hostvars[bridgehead].first_name }}-gre:
+      mode: gre
+      local: {{ ansible_host }}
+      remote: {{ hostvars[bridgehead].ansible_host }}
+      mtu: {{ gre_tunnel_mtu }}
+      addresses:
+      - {{ gre_tunnel_ip }}/{{ gre_tunnel_prefix }}
+      routes:
+      - to: 0.0.0.0/0
+        via: 0.0.0.0
+        metric: {{ bridgehead_count }}
+{% endfor %}

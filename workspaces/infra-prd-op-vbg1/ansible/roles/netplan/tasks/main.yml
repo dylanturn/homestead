@@ -1,0 +1,53 @@
+- name: Template the bridgehead netplan configuration
+  when: "'k3s_bridgehead' in group_names"
+  ansible.builtin.template:
+    src: templates/netplan-bridgehead-template.yml.j2
+    dest: "{{ netplan_config_path }}"
+    owner: root
+    group: root
+    mode: '0644'
+  register: bridgehead_output
+
+
+- name: Template the cluster netplan configuration
+  when: "'k3s_cluster' in group_names"
+  ansible.builtin.template:
+    src: templates/netplan-cluster-template.yml.j2
+    dest: "{{ netplan_config_path }}"
+    owner: root
+    group: root
+    mode: '0644'
+  register: cluster_node_output
+
+
+- name: Run `netplan generate`
+  when: ("k3s_bridgehead" in group_names and bridgehead_output.changed) or ("k3s_cluster" in group_names and cluster_node_output.changed)
+  ansible.builtin.command: netplan apply
+
+- name: Run `netplan apply`
+  when: ("k3s_bridgehead" in group_names and bridgehead_output.changed) or ("k3s_cluster" in group_names and cluster_node_output.changed)
+  ansible.builtin.command: netplan apply
+
+
+- name: Enable ip forwarding
+  when: "'k3s_bridgehead' in group_names"
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+
+- name: Setup NAT MASQUERADE
+  when: "'k3s_bridgehead' in group_names"
+  ansible.builtin.iptables:
+    table: nat
+    chain: POSTROUTING
+    out_interface: "{{ primary_interface_name }}"
+    jump: SNAT
+    source: "{{ hostvars[item].gre_tunnel_ip }}"
+    to_source: "{{ external_ip }}"
+  with_inventory_hostnames:
+    - k3s_cluster
+
