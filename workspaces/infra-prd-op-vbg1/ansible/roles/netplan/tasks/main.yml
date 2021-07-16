@@ -42,6 +42,7 @@
 - name: Setup NAT MASQUERADE
   when: "'k3s_bridgehead' in group_names"
   ansible.builtin.iptables:
+    state: absent
     table: nat
     chain: POSTROUTING
     out_interface: "{{ primary_interface_name }}"

@@ -42,10 +42,13 @@ module "cert_manager" {
 
 # 4. Lastly, deploy/update the CICD orchestrator.
 module "argocd" {
-  source = "git::https://github.com/project-octal/terraform-kubernetes-argocd.git"
+  source = "git::https://github.com/project-octal/terraform-kubernetes-argocd.git?ref=fix/progressing-ingress"
 
   argocd_url       = "argocd.arroyo.turnbros.app"
-  argocd_image_tag = "v1.8.7"
+  #argocd_image_tag = "v1.8.7"
+  argocd_image_tag = "v2.0.2"
+  haproxy_image_tag = "2.0.4"
+  redis_image_tag  = "6.2.1-alpine"
 
   namespace              = "kube-argocd"
   argocd_server_replicas = 2

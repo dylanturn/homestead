@@ -39,7 +39,7 @@ all:
         host_network_cidr: 24
         netplan_config_path: /etc/netplan/00-installer-config.yaml
         gre_tunnel_prefix: 31
-        gre_tunnel_mtu: 1436
+        gre_tunnel_mtu: 1280
         search_domains:
           - turnbull.corp
           - turnbull.home
